@@ -15,7 +15,11 @@ public interface EmployeeRepository extends JpaRepository<Employee, BigInteger> 
             " EMPLOYEE.NAME AS NAME," +
             " EMPLOYEE.SALARY AS SALARY," +
             " CAST(EMPLOYEE.GRADE AS VARCHAR) || ' : ' || GRADE_REF.NAME AS GRADE," +
-            " EMPLOYEE.SALARY + (SALARY * 0.1) AS BONUS" +
+            " CASE" +
+            " WHEN EMPLOYEE.GRADE = 1 THEN EMPLOYEE.SALARY + (SALARY * 0.1)" +
+            " WHEN EMPLOYEE.GRADE = 2 THEN EMPLOYEE.SALARY + (SALARY * 0.06)" +
+            " WHEN EMPLOYEE.GRADE = 3 THEN EMPLOYEE.SALARY + (SALARY * 0.03)" +
+            " ELSE EMPLOYEE.SALARY END AS BONUS" +
             " FROM EMPLOYEE " +
             "JOIN GRADE_REF ON GRADE_REF.ID = EMPLOYEE.GRADE", nativeQuery = true)
     List<Map<String, Object>> getDataAll();

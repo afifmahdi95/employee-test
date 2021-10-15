@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigInteger;
+
 @Service
 @Transactional
 public class EmployeeService {
@@ -31,6 +33,11 @@ public class EmployeeService {
     //get all data
     public Object getAll(){
         return employeeRepository.getDataAll();
+    }
+
+    //get by id
+    public Object getById(BigInteger id){
+        return employeeRepository.findById(id);
     }
 
     //update data to table employee

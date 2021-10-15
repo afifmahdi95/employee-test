@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigInteger;
+
 @RestController
 @RequestMapping("/v1")
 public class ApiController {
@@ -17,6 +19,15 @@ public class ApiController {
     public ResponseEntity<?> getAll(){
         try {
             return ResponseEntity.ok().body(employeeService.getAll());
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/get-by-id/{id}")
+    public ResponseEntity<?> getById(@PathVariable("id") BigInteger id){
+        try {
+            return ResponseEntity.ok().body(employeeService.getById(id));
         }catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
