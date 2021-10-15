@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <h1>EMPLOYEE LIST</h1>
+    <div>
+        <form action="add-employee">
+            <button type="submit" value="Add User">Add User</button>
+        </form>
+
+    </div>
+
+    <div>
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Salary</th>
+                <th>Grade Code</th>
+                <th>Total Bonus</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody id="data" onload="get_all_data()">
+
+            </tbody>
+        </table>
+    </div>
+</body>
+<script>
+    function get_all_data() {
+        let table = document.getElementById("data")
+        let xhr = new XMLHttpRequest()
+        let url = 'http://localhost:1111/v1/get-all'
+        xhr.onreadystatechange = function() {
+            if(this.readyState == 4 && this.status == 200){
+                console.log("res", this.response)
+                const datas = JSON.parse(this.response)
+                console.log("length", datas.length)
+
+                for(let i = 0; i < datas.length; i++){
+                    console.log("id from index " + i + " = ", datas[i].id)
+                    console.log("name from index " + i + " = ", datas[i].name)
+                    console.log("salary from index " + i + " = ", datas[i].salary)
+                    console.log("grade from index " + i + " = ", datas[i].grade)
+                    console.log("bonus from index " + i + " = ", datas[i].bonus)
+
+                    let row = table.insertRow(i)
+                    let id = row.insertCell(0)
+                    let name = row.insertCell(1)
+                    let salary = row.insertCell(2)
+                    let grade = row.insertCell(3)
+                    let bonus = row.insertCell(4)
+                    let action = row.insertCell(5)
+
+                    id.innerHTML = datas[i].id
+                    name.innerHTML = datas[i].name
+                    salary.innerHTML = datas[i].salary
+                    grade.innerHTML = datas[i].grade
+                    bonus.innerHTML = datas[i].bonus
+                    action.innerHTML = '<button onclick="edit-data">Edit</button>'
+
+                    console.log("get action", action)
+                }
+            }
+        }
+        xhr.open("GET", url, true);
+        xhr.send();
+    }
+
+    function add(){
+
+    }
+
+    window.onload = function () {
+        get_all_data()
+    }
+</script>
+</html>
